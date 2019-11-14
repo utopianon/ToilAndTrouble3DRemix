@@ -15,13 +15,13 @@ public class GrabbableObject : RaycastController
     public LayerMask excludeGrabbed;
     public CollisionInfo collisions;
     public float gravity;
-    SpriteRenderer sprite;
+
     public bool shaking = false;
     public IngredientType type;
 
     public override void Awake()
     {
-        sprite = GetComponentInChildren<SpriteRenderer>();
+
         base.Awake();
     }
 
@@ -50,6 +50,7 @@ public class GrabbableObject : RaycastController
                 AttachPoint attachTo;
                 if (attachTo = (nearestAttachPoint(hit.transform.GetComponent<Player>()).Attach(this)))
                 {
+                    Debug.Log("GOT HERE");
                     grabbed = true;
                     gameObject.layer += 1;
                     StartCoroutine(AttachToPlayer(attachTo));
@@ -114,7 +115,7 @@ public class GrabbableObject : RaycastController
             grabbed = false;
             pointAttachedTo.Detach(this);
             pointAttachedTo = null;
-            sprite.sortingOrder++;
+
             gameObject.layer -= 1;
         }
         else
@@ -126,9 +127,9 @@ public class GrabbableObject : RaycastController
 
     public void ForceDrop()
     {
-        grabbed = false;       
+        grabbed = false;
         pointAttachedTo = null;
-        sprite.sortingOrder++;
+
         gameObject.layer -= 1;
         FailDrop();
     }
@@ -141,7 +142,7 @@ public class GrabbableObject : RaycastController
         Vector2 endPos = attachPoint.FreeAttachPoint(this);
         yAttachModifier = endPos.y - attachPoint.transform.position.y;
         Vector2 startPos = transform.position;
-        sprite.sortingOrder--;
+
 
 
         while (timer <= lerpTime)
